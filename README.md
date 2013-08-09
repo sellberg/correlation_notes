@@ -1,9 +1,9 @@
 correlation_notes
 =================
 
-Jonas Sellberg <sellberg@slac.stanford.edu>
-Derek Mendez <dermen@stanford.edu>
-TJ Lane <tjlane@stanford.edu>
+Jonas Sellberg || <sellberg@slac.stanford.edu><br>
+Derek Mendez || <dermen@stanford.edu><br>
+TJ Lane || <tjlane@stanford.edu><br>
 
 We each have investigated many different sources of error in correlation scattering experiments (CXS), as well as many different ways to overcome those errors via data processing. For example, should one subtract the mean of each shot when correlating in the presence of significant beam pulse energy variation? This repository reflects a more systematic and thorough approach to dealing with those effects, and documents our perception for dealing with them.
 
