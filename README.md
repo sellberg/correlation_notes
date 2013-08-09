@@ -27,26 +27,26 @@ We plan on investigating at least two "systems", specifically simulations of (1)
 ###III. Analysis of Sources of Error (SoE)###
 
 1. Generic Noise
-- gaussian (e.g. Johnson) noise
-- photon poisson statistics
+	- gaussian (e.g. Johnson) noise
+	- photon poisson statistics
 
 2. Beam Pulse Power
-- 10% gaussian fluctuations
+	- 10% gaussian fluctuations
 
 3. Gaps
-- SSRL systematic gaps
-- 20% of pixels randomly masked (binomial distribution)
+	- SSRL systematic gaps
+	- 20% of pixels randomly masked (binomial distribution)
 
 4. Gain
-- use statistics from LCLS single-pixel gain on each polar "pixel"
-- study LCLS non-linear gain
+	- use statistics from LCLS single-pixel gain on each polar "pixel"
+	- study LCLS non-linear gain
 
 5. Number of molecules per shot
-- poisson statistics around lambda=50 molecules
+	- poisson statistics around lambda=50 molecules
 
 6. Additive Background Errors
-- simulation of common mode effects on the CSPAD
-- a structured background, e.g. like a solvent
+	- simulation of common mode effects on the CSPAD
+	- a structured background, e.g. like a solvent
 
 ###IV. Effects on Real Data###
 
