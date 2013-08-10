@@ -1,8 +1,4 @@
 
-# THIS FILE IS PART OF correlation_notes, AND IS GOVERENED BY A PERMISSIBILITY LICENSE 
-# GOVERNING ITS USE AND DISTRIBUTION. YOU SHOULD HAVE RECIEVED A COPY OF THIS
-# LICENSE WITH THE SOFTWARE; IF NOT PROVIDED, WRITE TO <tjlane@stanford.edu>.
-#
 # AUTHORS:
 # TJ Lane <tjlane@stanford.edu>
 # Jonas Sellberg <sellberg@slac.stanford.edu>
@@ -11,14 +7,45 @@
 # Aug 9, 2013
 
 """
-Methods for messing with intensities and calculating correlations.
+An interface to CorrStats - a statistical approach to correlations from an ensemble.
 """
+
+import numpy as np
 
 class CorrStats(object):
     """
     """
-    def __init__(self):
+    def __init__(self, intensities, mask=None):
         """
         """
-        print "Hello, you suck."
-
+        
+        self.raw_intensities = intensities.copy()
+        if not mask:
+            self.mask = np.ones(intensities.shape[1:])
+        else:
+            self.mask = mask
+        
+    def correlate(self, gaps_method, norm_method, sub_method):
+    
+    def correlate_inter(self, gaps_method, norm_method, sub_method):
+    
+    def add_noise(self, mean):
+    
+    def add_power_fluctuations(self, sigma):
+    
+    def add_gaps(self, mask):
+    
+    def add_pixel_gain(self, gain):
+    
+    def add_nonlinear_gain(self, gain):
+    
+    def add_background(self, bg):
+    
+    def ensemble_statistics(self)
+    
+    def plot(self):
+    
+    def save()
+    
+    def load()
+    
