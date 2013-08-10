@@ -31,7 +31,7 @@ class CorrStats(object):
     
     def correlate(self, gaps_method, norm_method, sub_method):
     
-    def correlate_inter(self, gaps_method, norm_method, sub_method):
+    def inter_correlate(self, gaps_method, norm_method, sub_method):
     
     def add_noise(self, mean):
     
@@ -47,14 +47,14 @@ class CorrStats(object):
     
     @property
     def ensemble_statistics(self)
-        stats = []
-        stats.append(np.mean(self.raw_intensities), np.stdev(self.raw_intensities))
+        stats = {}
+        stats['raw intensity'] = (np.mean(self.raw_intensities), np.stdev(self.raw_intensities))
         if self.modified_intensities:
-            stats.append(np.mean(self.modified_intensities), np.stdev(self.modified_intensities))
+            stats['modified intensity'] = (np.mean(self.modified_intensities), np.stdev(self.modified_intensities))
         if self.raw_correlations:
-            stats.append(np.mean(self.raw_correlations), np.stdev(raw_correlations))
+            stats['raw correlation'] = (np.mean(self.raw_correlations), np.stdev(raw_correlations))
         if self.modified_correlations:
-            stats.append(np.mean(self.modified_correlations), np.stdev(self.modified_correlations))
+            stats['modified correlation'] = (np.mean(self.modified_correlations), np.stdev(self.modified_correlations))
         return stats
     
     def plot(self):
