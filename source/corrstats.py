@@ -14,6 +14,8 @@
 Methods for messing with intensities and calculating correlations.
 """
 
+import numpy as np
+
 class CorrStats(object):
     """
     """
@@ -22,3 +24,5 @@ class CorrStats(object):
         """
         print "Hello, you suck."
 
+
+    def correlate(  )
