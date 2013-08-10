@@ -24,7 +24,11 @@ class CorrStats(object):
             self.mask = np.ones(intensities.shape[1:])
         else:
             self.mask = mask
-        
+        self.modified_intensities = None
+        self.raw_correlations = None
+        self.modified_correlations = None
+        self.raw_correlations
+    
     def correlate(self, gaps_method, norm_method, sub_method):
     
     def correlate_inter(self, gaps_method, norm_method, sub_method):
@@ -41,11 +45,27 @@ class CorrStats(object):
     
     def add_background(self, bg):
     
+    @property
     def ensemble_statistics(self)
+        stats = []
+        stats.append(np.mean(self.raw_intensities), np.stdev(self.raw_intensities))
+        if self.modified_intensities:
+            stats.append(np.mean(self.modified_intensities), np.stdev(self.modified_intensities))
+        if self.raw_correlations:
+            stats.append(np.mean(self.raw_correlations), np.stdev(raw_correlations))
+        if self.modified_correlations:
+            stats.append(np.mean(self.modified_correlations), np.stdev(self.modified_correlations))
+        return stats
     
     def plot(self):
     
-    def save()
+    def save():
     
-    def load()
+    @classmethod
+    def load(cls, filename):
+        f = h5py.File(filename)
+        data = np.array(f['data'])
+        f.close()
+        
+        return cls(data)
     
