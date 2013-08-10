@@ -1,7 +1,7 @@
 #coding: utf8
 
 """
-Setup script for pypad.
+Setup script for corrstats.
 """
 
 try:
@@ -16,5 +16,4 @@ setup(name='corrstats',
       author_email="tjlane@stanford.edu",
       description='Correlation statistics calculator and X-ray intensity modifier',
       packages=["correlation_notes"],
-      package_dir={"correlation_notes": "source"},
-      )
+      package_dir={"correlation_notes": "source"})
