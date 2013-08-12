@@ -26,8 +26,12 @@ class CorrStats(object):
             self.mask = mask
         
     def correlate(self, gaps_method, norm_method, sub_method):
+   
+   
     
     def correlate_inter(self, gaps_method, norm_method, sub_method):
+   
+   
     
     def add_noise(self, mean):
     
@@ -48,5 +52,126 @@ class CorrStats(object):
     def save()
     
     def load()
+
+
+
+class Corr( N_, ar1, ar2, ar3,  norm_, sub_,  nozero_):
+
+    def __init__ (  self , N_, ar1, ar2, ar3,  norm_, sub_,  nozero_ ):   
+        self.N =  N_
+
+        self.norm = norm_
+        self.sub = sub_
+        self.nozero = nozero_
+          
+        self.ar1_mean  =  mean_no_zero(ar1)
+        self.ar2_mean  =  mean_no_zero(ar2)
+          
+        self.ar1_stdev  = stdev_no_zero(ar1, ar1_mean)
+        self.ar2_stdev  = stdev_no_zero(ar2, ar2_mean)
+
+        if norm==0:
+          norm_factor = ar1_mean * ar2_mean
+        elif norm==1:
+            norm_factor = ar1_stdev * ar2_stdev
+        else:
+            norm_factor = 1.
+          
+        return correlate ( ar1,ar2,ar3)
+
+
+
+    def correlate( ar1, ar2, arC): 
     
->>>>>>> d0abf7a27a0a46c2a607de6554d2d0d6c69483f7
+        if self.sub == 0 and self.nozero == 0:
+            for phi in xrange( self.N ):
+                counts=0 # keep track of the number of good pairs
+                for i in xrange( self.N ) : 
+                    j = i + phi
+                if j >= N: 
+                    j  = j - N
+              
+                if ar1[i] > 0 and ar2[j] > 0: 
+                    arC[phi] += ( ar1[i] - ar1_mean) *( ar2[j]-ar2_mean) 
+                    counts += 1
+                arC[phi] = arC[phi] / (norm_factor *  counts)
+      
+      
+      
+      
+      else if ( sub==1 && nozero == 0 )
+          for ( int phi=0; phi < N; phi++ ) 
+            float counts(0); // keep track of the number of good pairs
+            for ( int i=0; i < N; i++) 
+              int j = i + phi;
+              
+              if (j >= N) 
+                j -= N;
+              
+              if (ar1[i] > 0 && ar2[j] > 0) 
+                arC[phi] += ar1[i]* ar2[j] ;
+            counts += 1;
+        arC[phi] = arC[phi] / (norm_factor *  counts);
+
+  else if (sub == 0 && nozero == 1)
+      for ( int phi=0; phi < N; phi++ ) 
+        for ( int i=0; i < N; i++) 
+          int j = i + phi;
+          
+          if (j >= N) 
+            j -= N;
+          
+          arC[phi] += ( ar1[i] - ar1_mean) *( ar2[j]-ar2_mean) ;
+        arC[phi] = arC[phi] / (norm_factor *  float(N) );
+  else
+      for ( int phi=0; phi < N; phi++ ) 
+        for ( int i=0; i < N; i++) 
+          int j = i + phi;
+          
+          if (j >= N) 
+            j -= N;
+          
+          arC[phi] += ar1[i]* ar2[j] ;
+
+        arC[phi] = arC[phi] / (norm_factor *  float( N ) );
+
+
+
+    def mean_no_zero(ar): 
+        if self.nozero == 0:
+            ar_mean=0
+            counts=0
+            for i in xrange( self.N ) :
+                if(ar[i] > 0)
+                    ar_mean += ar[i];
+                    counts ++;
+            if counts > 0:
+                return ar_mean / counts;
+            else:
+                return 0;
+        else:
+            ar_mean=0
+            for i in xrange( self.N ) :
+                ar_mean += ar[i]
+            return ar_mean / float( self.N)
+
+    def stdev_no_zero(self, float * ar, float ar_mean):
+        """the array ar is already mean subtracted"""
+
+        if (nozero == 0 ):
+            ar_stdev=0
+            counts=0
+            for i in xrange( self.N ):
+                if ar[i] > 0:
+                    ar_stdev += ( ar[i]- ar_mean )* ( ar[i] - ar_mean ) 
+                    counts +=1
+            if counts > 0:
+                return sqrt( ar_stdev / counts )
+            else:
+                return 0
+      
+        else:
+            ar_stdev = 0
+            for i in xrange( self.N ): 
+                ar_stdev += ( ar[i]- ar_mean )* ( ar[i] - ar_mean ) 
+        return np.sqrt( ar_stdev / float(self.N) )
