@@ -29,10 +29,7 @@ class CorrStats(object):
         self.modified_correlations = None
         self.raw_correlations
     
-    def correlate(self, gaps_method, norm_method, sub_method):
-   
-   
-    
+    def intra_correlate(self, gaps_method, norm_method, sub_method):
    
     def inter_correlate(self, gaps_method, norm_method, sub_method):
     
@@ -73,107 +70,109 @@ class CorrStats(object):
         return cls(data)
     
 
-class Corr( N_, ar1, ar2, ar3,  norm_, sub_,  nozero_):
+class Corr( object):
 
-    def __init__ (  self , N_, ar1, ar2, ar3,  norm_, sub_,  nozero_ ):   
-        self.N =  N_
+    def __init__ (  self , N, A, B, norm, sub,  nozero ):   
+        self.N =  N
 
-        self.norm = norm_
-        self.sub = sub_
-        self.nozero = nozero_
+        self.norm = norm
+        self.sub = sub
+        self.nozero = nozero
           
-        self.ar1_mean  =  mean_no_zero(ar1)
-        self.ar2_mean  =  mean_no_zero(ar2)
+        self.A = A
+        self.B = B
+
+        self.A_mean  =  mean_no_zero(A)
+        self.B_mean  =  mean_no_zero(B)
           
-        self.ar1_stdev  = stdev_no_zero(ar1, ar1_mean)
-        self.ar2_stdev  = stdev_no_zero(ar2, ar2_mean)
+        self.A_stdev  = stdev_no_zero(A, A_mean)
+        self.B_stdev  = stdev_no_zero(B, B_mean)
 
         if norm==0:
-          norm_factor = ar1_mean * ar2_mean
+            self.norm_factor = self.A_mean * self.B_mean
         elif norm==1:
-            norm_factor = ar1_stdev * ar2_stdev
+            self.norm_factor = self.A_stdev * self.B_stdev
         else:
-            norm_factor = 1.
-          
-        return correlate ( ar1,ar2,ar3)
+            self.norm_factor = 1.
+        
+        self.C = np.zeros( self.N ) 
+
+        return correlate ()
 
 
-
-    def correlate( ar1, ar2, arC): 
+    def correlate(self): 
     
         if self.sub == 0 and self.nozero == 0:
             for phi in xrange( self.N ):
                 counts=0 # keep track of the number of good pairs
                 for i in xrange( self.N ) : 
                     j = i + phi
-                if j >= N: 
-                    j  = j - N
+                if j >= self.N: 
+                    j  = j - self.N
               
-                if ar1[i] > 0 and ar2[j] > 0: 
-                    arC[phi] += ( ar1[i] - ar1_mean) *( ar2[j]-ar2_mean) 
+                if self.A[i] > 0 and self.B[j] > 0: 
+                    self.C[phi] += ( self.A[i] - self.A_mean) *( self.B[j]-self.B_mean) 
                     counts += 1
-                arC[phi] = arC[phi] / (norm_factor *  counts)
+                self.C[phi] = self.C[phi] / (norm_factor *  counts)
       
       
-      
-      
-      else if ( sub==1 && nozero == 0 )
-          for ( int phi=0; phi < N; phi++ ) 
-            float counts(0); // keep track of the number of good pairs
-            for ( int i=0; i < N; i++) 
-              int j = i + phi;
+        elif  self.sub==1 and self.nozero == 0 :
+            for phi in xrange( self.N ) : 
+                counts=0 # keep track of the number of good pairs
+                for i in xrange( self.N ) :
+                    j = i + phi
               
-              if (j >= N) 
-                j -= N;
+                    if j >= self.N: 
+                        j = j -  self.N
               
-              if (ar1[i] > 0 && ar2[j] > 0) 
-                arC[phi] += ar1[i]* ar2[j] ;
-            counts += 1;
-        arC[phi] = arC[phi] / (norm_factor *  counts);
+                    if self.A[i] > 0 and self.B[j] > 0: 
+                        self.C[phi] += self.A[i]* self.B[j] 
+                        counts += 1
+                
+                self.C[phi] = self.C[phi] / (norm_factor *  counts);
 
-  else if (sub == 0 && nozero == 1)
-      for ( int phi=0; phi < N; phi++ ) 
-        for ( int i=0; i < N; i++) 
-          int j = i + phi;
+        elif self.sub == 0 and self.nozero == 1:
+            for phi in xrange( self.N ) :
+                for i in xrange( self.N ) :
+                    j = i + phi
           
-          if (j >= N) 
-            j -= N;
+                    if j >= self.N: 
+                        j = j- self.N
           
-          arC[phi] += ( ar1[i] - ar1_mean) *( ar2[j]-ar2_mean) ;
-        arC[phi] = arC[phi] / (norm_factor *  float(N) );
-  else
-      for ( int phi=0; phi < N; phi++ ) 
-        for ( int i=0; i < N; i++) 
-          int j = i + phi;
+                    self.C[phi] += ( self.A[i] - self.A_mean) *( self.B[j]-self.B_mean) ;
+                self.C[phi] = self.C[phi] / (norm_factor *  float(self.N) );
+        else:
+            for phi in xrange( self.N ) :
+                for i in xrange( self.N ) :
+                    j = i + phi
           
-          if (j >= N) 
-            j -= N;
+                    if j >= self.N: 
+                        j = j - self.N
           
-          arC[phi] += ar1[i]* ar2[j] ;
+                    self.C[phi] += self.A[i]* self.B[j]
 
-        arC[phi] = arC[phi] / (norm_factor *  float( N ) );
+                self.C[phi] = self.C[phi] / (norm_factor *  float( self.N ) )
 
 
-
-    def mean_no_zero(ar): 
+    def mean_no_zero(self, ar): 
         if self.nozero == 0:
             ar_mean=0
             counts=0
             for i in xrange( self.N ) :
                 if(ar[i] > 0)
-                    ar_mean += ar[i];
-                    counts ++;
+                    ar_mean += ar[i]
+                    counts +=1
             if counts > 0:
-                return ar_mean / counts;
+                return ar_mean / counts
             else:
-                return 0;
+                return 0
         else:
             ar_mean=0
             for i in xrange( self.N ) :
                 ar_mean += ar[i]
             return ar_mean / float( self.N)
 
-    def stdev_no_zero(self, float * ar, float ar_mean):
+    def stdev_no_zero(self,ar, ar_mean):
         """the array ar is already mean subtracted"""
 
         if (nozero == 0 ):
